@@ -1,11 +1,10 @@
 App\Entity\Job:
     job{1..100}:
-        name: '<word()>'
-        description: '<paragraph()>'
+        name: <word()>
+        description: <paragraph()>
 
 App\Entity\Pattern:
     pattern{1..100}:
-        type: 'INCLUDE'
-        metadata: 'abcde'
-        parameters: '<randomElements([1,2,3,4,5], 2)>'
+        type: INCLUDE
+        metadata: abcde
         job: '@job*'
