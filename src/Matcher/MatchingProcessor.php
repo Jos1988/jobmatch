@@ -9,8 +9,9 @@ namespace App\Matcher;
  * Time: 17:51
  */
 
+use App\Entity\Job;
+use App\Entity\Pattern;
 use App\Matcher\Exception\MatchingException;
-use App\Repository\JobRepository;
 use App\Repository\PatternRepository;
 
 /**
@@ -82,47 +83,110 @@ class MatchingProcessor
      *
      * @throws MatchingException
      */
-    public function startProcess(): void
+    public function startProcess(): int
     {
         if (false === isset($this->profile)) {
             throw MatchingException::CandidateProfileNotSet();
         }
 
-        $run = true;
         $first = 0;
 
         //start loop
         do {
-            //get first batch
             $batch = $this->patternRepository->getBatch($first, self::$batchSize);
             $first += self::$batchSize;
 
             //check if last batch.
-            dump(count($batch), self::$batchSize, $first);
-            if (count($batch) < self::$batchSize) {
-                dump('stop');
-                $run = false;
-            }
+            $run = $this->checkKeepRunningAfterBatch($batch);
 
             //loop over job profiles
-            $batchString = '';
-            foreach ($batch as $job) {
-                $batchString = $batchString.'|'.(string)$job->getId();
+            foreach ($batch as $pattern) {
+                //compare meta data if matching is possible.
+                if (false === $this->checkPatternMetaData($pattern)) {
+                    continue;
+                }
 
+                $candidateProfile = self::getProfile();
+                $isMatch = true;
                 //loop over profile parameters
-                //get corresponding parameter from candidate profile.
-                //check parameters.
-                // if match: continue matching parameters
-                // else stop matching parameters
+                foreach ($pattern->getParameters() as $parameter) {
+                    $paramName = $parameter['name'];
+
+                    //get corresponding parameter from candidate profile.
+                    $candidateParamValue = $candidateProfile[$paramName];
+
+                    // if match: continue matching parameters else stop matching parameters
+                    if ($candidateParamValue < $parameter['min'] || $candidateParamValue > $parameter['max']) {
+                        $isMatch = false;
+                        break;
+                    }
+                }
+
+                if (false === $isMatch) {
+                    continue;
+                }
+
                 //if all parameters match store job in array with matches.
-                //end loop
-
+                $this->matches[] = $pattern->getJob();
             }
-
-            dump($batchString);
 
         } while (true === $run);
 
         //return status
+        return 1;
+    }
+
+    /**
+     * @param Pattern $pattern
+     *
+     * @return bool
+     */
+    protected function checkPatternMetaData(Pattern $pattern): bool
+    {
+        $paramNames = array_keys(self::getProfile());
+        $profileMetaData = implode('|', $paramNames);
+        if ($profileMetaData !== $pattern->getMetadata()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @param array|Pattern[] $batch
+     *
+     * @return bool
+     */
+    protected function checkKeepRunningAfterBatch(array $batch): bool
+    {
+        if (count($batch) < self::$batchSize) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * get Matches
+     *
+     * @return array|Job[]
+     */
+    public function getMatches(): array
+    {
+        return $this->matches;
+    }
+
+    /**
+     * set Matches
+     *
+     * @param array $matches
+     *
+     * @return $this
+     */
+    public function setMatches(array $matches): self
+    {
+        $this->matches = $matches;
+
+        return $this;
     }
 }

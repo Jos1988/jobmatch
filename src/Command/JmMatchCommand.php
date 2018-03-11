@@ -19,11 +19,11 @@ class JmMatchCommand extends Command
      * @var array
      */
     protected static $candidateProfile = [
-        'a' => 5,
-        'b' => 5,
-        'c' => 5,
-        'd' => 5,
-        'e' => 5,
+        'a' => 500,
+        'b' => 500,
+        'c' => 500,
+        'd' => 500,
+        'e' => 500,
     ];
 
     /**
@@ -61,11 +61,15 @@ class JmMatchCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
-        $io->title('Searching for match with target profile: '. $this->writeOutProfile(self::$candidateProfile));
+        $io->title('Searching for match with target profile: '.$this->writeOutProfile(self::$candidateProfile));
 
-//        $matchingProcessor = new MatchingProcessor();
-        $this->matchingProcessor->setPstrofile(self::$candidateProfile);
-        $this->matchingProcessor->startProcess();
+        $this->matchingProcessor->setProfile(self::$candidateProfile);
+        if (1 === $this->matchingProcessor->startProcess()) {
+            $io->success('Found at least one match.');
+            foreach ($this->matchingProcessor->getMatches() as $jobMatch) {
+                $io->text('- '.$jobMatch->getName());
+            }
+        }
     }
 
     /**
