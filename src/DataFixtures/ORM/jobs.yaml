@@ -6,5 +6,5 @@ App\Entity\Job:
 App\Entity\Pattern:
     pattern{1..100}:
         type: INCLUDE
-        metadata: abcde
+        metadata: a|b|c|d|e
         job: '@job*'

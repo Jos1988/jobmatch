@@ -18,18 +18,4 @@ class JobRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Job::class);
     }
-
-
-    public function getBatch(int $start, int $size)
-    {
-        return $this->createQueryBuilder('j')
-            ->where('j.something = :value')
-            ->setParameter('value', $value)
-            ->fir
-            ->setMaxResults($size)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-
 }

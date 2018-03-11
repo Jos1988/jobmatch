@@ -19,16 +19,21 @@ class PatternRepository extends ServiceEntityRepository
         parent::__construct($registry, Pattern::class);
     }
 
-    /*
-    public function findBySomething($value)
+    /**
+     * Get batch of patterns.
+     *
+     * @param int $first
+     * @param int $size
+     *
+     * @return mixed|Pattern[]
+     */
+    public function getBatch(int $first, int $size)
     {
         return $this->createQueryBuilder('p')
-            ->where('p.something = :value')->setParameter('value', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
+            ->setFirstResult($first)
+            ->setMaxResults($size)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
+
 }
