@@ -124,8 +124,10 @@ class JobFixtures extends Fixture
      */
     private function setName(Job $job): void
     {
-        $rand1 = rand(0, 9);
-        $rand2 = rand(0, 9);
+        mt_srand($this->randomSeed());
+
+        $rand1 = mt_rand(0, 9);
+        $rand2 = mt_rand(0, 9);
         $name = '';
         if ($rand1 > 3) {
             $name .= self::$jobPrefixes[array_rand(self::$jobPrefixes)].' ';
@@ -140,14 +142,28 @@ class JobFixtures extends Fixture
     }
 
     /**
+     * get seed using microTime
+     *
+     * @return int
+     */
+    protected function randomSeed(): int
+    {
+        $microTime = explode(' ', microtime());
+        $microSec = (float)$microTime[0] * 1000;
+        $seed = (int)$microSec + (int)$microTime[1];
+
+        return $seed;
+    }
+
+    /**
      * @return array
      */
     private function generateParameters(): array
     {
         $pattern = [];
         foreach (self::$indicatorsData as $indicatorData) {
-            $intA = rand($indicatorData['range_low'], $indicatorData['range_high']);
-            $intB = rand($indicatorData['range_low'], $indicatorData['range_high']);
+            $intA = mt_rand($indicatorData['range_low'], $indicatorData['range_high']);
+            $intB = mt_rand($indicatorData['range_low'], $indicatorData['range_high']);
             $values = [$intA, $intB];
             sort($values);
             $indicatorData['min'] = $values[0];
