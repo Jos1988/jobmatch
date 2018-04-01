@@ -8,14 +8,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class MatchingController extends Controller
 {
     /**
-     * @Route("/match", name="matching")
+     * @Route("/", name="matching")
      */
     public function index()
     {
-        die('123');
 
         return $this->render('matching/index.html.twig', [
-            'controller_name' => 'MatchingController',
         ]);
     }
 }
