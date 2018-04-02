@@ -42,8 +42,6 @@ class Todo
     private $description;
 
     /**
-     * DateTime of last status change.
-     *
      * @var \DateTime
      * @ORM\Column(type="datetime")
      */

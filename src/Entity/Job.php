@@ -103,4 +103,28 @@ class Job
 
         return $this;
     }
+
+    /**
+     * get Patterns
+     *
+     * @return mixed
+     */
+    public function getPatterns()
+    {
+        return $this->patterns;
+    }
+
+    /**
+     * set Patterns
+     *
+     * @param mixed $patterns
+     *
+     * @return $this
+     */
+    public function setPatterns($patterns): self
+    {
+        $this->patterns = $patterns;
+
+        return $this;
+    }
 }
