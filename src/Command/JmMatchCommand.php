@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Matcher\MatchingProcessor;
+use App\Matcher\Model\Profile;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -19,11 +20,12 @@ class JmMatchCommand extends Command
      * @var array
      */
     protected static $candidateProfile = [
-        'a' => 500,
-        'b' => 500,
-        'c' => 500,
-        'd' => 500,
-        'e' => 500,
+        'IE' => 5,
+        'SN' => 5,
+        'TF' => 5,
+        'PJ' => 5,
+        'TS' => 5,
+        'MHW' => 2
     ];
 
     /**

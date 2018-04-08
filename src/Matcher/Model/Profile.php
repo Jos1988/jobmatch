@@ -35,7 +35,7 @@ class Profile
     /**
      * @var int|null
      */
-    public $TD;
+    public $TS;
 
     /**
      * @var int|null
@@ -143,21 +143,21 @@ class Profile
      *
      * @return int
      */
-    public function getTD(): ?int
+    public function getTS(): ?int
     {
-        return $this->TD;
+        return $this->TS;
     }
 
     /**
      * set TD
      *
-     * @param int $TD
+     * @param int $TS
      *
      * @return $this
      */
-    public function setTD(int $TD): self
+    public function setTS(int $TS): self
     {
-        $this->TD = $TD;
+        $this->TS = $TS;
 
         return $this;
     }

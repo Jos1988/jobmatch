@@ -115,6 +115,11 @@ class MatchingProcessor
                     //get corresponding parameter from candidate profile.
                     $candidateParamValue = $candidateProfile[$paramName];
 
+                    // if parameter not set, ignore it.
+                    if (false === isset($candidateParamValue)) {
+                        continue;
+                    }
+
                     // if match: continue matching parameters else stop matching parameters
                     if ($candidateParamValue < $parameter['min'] || $candidateParamValue > $parameter['max']) {
                         $isMatch = false;

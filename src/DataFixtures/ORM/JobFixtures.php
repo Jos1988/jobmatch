@@ -73,11 +73,12 @@ class JobFixtures extends Fixture
     ];
 
     private static $indicatorsData = [
-        ['name' => 'a', 'range_low' => 0, 'range_high' => 1000],
-        ['name' => 'b', 'range_low' => 0, 'range_high' => 1000],
-        ['name' => 'c', 'range_low' => 0, 'range_high' => 1000],
-        ['name' => 'd', 'range_low' => 0, 'range_high' => 1000],
-        ['name' => 'e', 'range_low' => 0, 'range_high' => 1000],
+        ['name' => 'IE', 'range_low' => 0, 'range_high' => 9],
+        ['name' => 'SN', 'range_low' => 0, 'range_high' => 9],
+        ['name' => 'TF', 'range_low' => 0, 'range_high' => 9],
+        ['name' => 'PJ', 'range_low' => 0, 'range_high' => 9],
+        ['name' => 'TS', 'range_low' => 0, 'range_high' => 9],
+        ['name' => 'MHW', 'range_low' => 0, 'range_high' => 2],
     ];
 
     /**

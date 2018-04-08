@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -124,6 +123,20 @@ class Job
     public function setPatterns($patterns): self
     {
         $this->patterns = $patterns;
+
+        return $this;
+    }
+
+    /**
+     * @param Pattern $pattern
+     *
+     * @return $this
+     */
+    public function addPattern(Pattern $pattern): self
+    {
+        if (false === $this->patterns->contains($pattern)) {
+            $this->patterns->add($pattern);
+        }
 
         return $this;
     }
